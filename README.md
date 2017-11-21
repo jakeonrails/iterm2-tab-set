@@ -111,6 +111,14 @@ If you don't like the hashed selection, experiment with
 variations. You might hate `--hash js`, but find
 `--hash js_`, `--hash JS` or `--hash javascript` to be just right
 
+
+If you wish to restore the default tab color, use the `--reset` flag, like so:
+
+    tabset --reset
+
+The original iTerm2 tab color will be restored. This will not reset the title
+or badge.
+
 Titles and Badges
 -----------------
 

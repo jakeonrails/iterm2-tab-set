@@ -66,6 +66,7 @@ function process_args () {
     println('       --del <name>')
     println('       --list')
     println('       --colors')
+    println('       --reset')
     println('       --help')
     println()
   }
@@ -159,6 +160,10 @@ function process_args () {
 
   if (args.init) {
     initConfigFile()
+  }
+
+  if (args.reset) {
+    resetTab()
   }
 }
 
@@ -359,6 +364,11 @@ function setTabColor (color) {
             ansiseq('6;1;bg;green;brightness;', color[1]) +
             ansiseq('6;1;bg;blue;brightness;',  color[2])
   print(cmd)
+}
+
+function resetTab () {
+  var cmd = ansiseq('6;1;bg;*;default');
+  print(cmd);
 }
 
 /**
