@@ -117,6 +117,13 @@ option, `--pick`, or `--all` flags. If you want to disable this
 output, you can use the `--quiet` flag, and there will be no terminal
 output indicating what color was chosen.
 
+If you wish to restore the default tab color, use the `--reset` flag, like so:
+
+    tabset --reset
+
+The original iTerm2 tab color will be restored. This will not reset the title
+or badge.
+
 Titles and Badges
 -----------------
 
