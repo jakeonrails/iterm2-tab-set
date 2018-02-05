@@ -111,6 +111,11 @@ If you don't like the hashed selection, experiment with
 variations. You might hate `--hash js`, but find
 `--hash js_`, `--hash JS` or `--hash javascript` to be just right
 
+By default, tabset will show output indicating what color was picked
+if no color was explicitly provided, such as when using the `--hash`
+option, `--pick`, or `--all` flags. If you want to disable this
+output, you can use the `--quiet` flag, and there will be no terminal
+output indicating what color was chosen.
 
 If you wish to restore the default tab color, use the `--reset` flag, like so:
 

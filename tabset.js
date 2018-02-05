@@ -43,6 +43,15 @@ var config = readJSON(configpath) || { colors: {} }
 interpretConfig(config)
 process_args()
 
+/**
+ * Proxy to println that does nothing if --quiet flag is passed.
+ */
+function sayln () {
+  if (!args.quiet) {
+    println(...arguments);
+  }
+}
+
 function process_args () {
   // help requested
   if (args.help) {
@@ -67,6 +76,7 @@ function process_args () {
     println('       --list')
     println('       --colors')
     println('       --reset')
+    println('       --quiet')
     println('       --help')
     println()
   }
@@ -94,7 +104,7 @@ function process_args () {
       var colorNames = _.keys(colors).sort()
       var index = stringHash(args.all) % colorNames.length
       var hashColor = colorNames[index]
-      println('picked color:', hashColor)
+      sayln('picked color:', hashColor)
       col = colors[hashColor]
     }
     setTabColor(col, definedOr(args.mode, 1))
@@ -126,18 +136,18 @@ function process_args () {
       colorpick({ targetApp: 'iTerm2'},
                 function (res) {
                   addColor(args.add, rgbstr(res.rgb))
-                  println('added:', args.add)
+                  sayln('added:', args.add)
                 })
     } else if (_.size(args._) === 1) {
       addColor(args.add, args._[0])
-      println('added:', args.add)
+      sayln('added:', args.add)
     } else {
       errorExit('add what color?')
     }
   } else if (args.pick) {
     colorpick({ targetApp: 'iTerm2'},
               function (res) {
-                println('picked:', rgbstr(res.rgb))
+                sayln('picked:', rgbstr(res.rgb))
                 setTabColor(res.rgb)
               })
   }
@@ -147,7 +157,7 @@ function process_args () {
       errorExit('must give name to delete')
     }
     delColor(args.del)
-    println('deleted:', args.del)
+    sayln('deleted:', args.del)
   }
 
   if (args.list) {
@@ -294,7 +304,7 @@ function decodeColor (name) {
     if (args.hash) {
       var index = stringHash(args.hash) % colorNames.length
       var hashColor = colorNames[index]
-      println('hashed color:', hashColor)
+      sayln('hashed color:', hashColor)
       return colors[hashColor]
     }
 
@@ -305,14 +315,14 @@ function decodeColor (name) {
   // random named color
   if (name === 'random') {
     var randColor = _.sample(colorNames)
-    println('random color:', randColor)
+    sayln('random color:', randColor)
     return colors[randColor]
   }
 
   // RANDOM color - not just a random named color
   if (name === 'RANDOM') {
     var rcolor = [_.random(255), _.random(255), _.random(255) ]
-    println('RANDOM color:', rgbstr(rcolor))
+    sayln('RANDOM color:', rgbstr(rcolor))
     return rcolor
   }
 
@@ -329,20 +339,20 @@ function decodeColor (name) {
       return s.indexOf(name) >= 0
     })
     if (possibles.length === 1) {
-      println('guessing:', possibles[0])
+      sayln('guessing:', possibles[0])
       return colors[possibles[0]]
     }  else if (possibles.length > 1) {
-      println(wrap('possibly: ' + possibles.join(', ')))
+      sayln(wrap('possibly: ' + possibles.join(', ')))
       var rcolor = _.sample(possibles)
-      println('randomly picked:', rcolor)
+      sayln('randomly picked:', rcolor)
       return colors[rcolor]
     }
   }
 
   // nothing worked, use default color
-  println('no color', JSON.stringify(name), 'known')
-  println('using default:', defaultColorSpec)
-  println('use --colors option to list color names')
+  sayln('no color', JSON.stringify(name), 'known')
+  sayln('using default:', defaultColorSpec)
+  sayln('use --colors option to list color names')
   return colors['default']
 }
 
